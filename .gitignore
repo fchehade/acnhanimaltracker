@@ -160,5 +160,7 @@ cython_debug/
 #.idea/
 
 *.DS_Store
-*/images/*/*.png
+acnhanimaltracker/animals/images/bugs/*.png
+acnhanimaltracker/animals/images/fish/*.png
+acnhanimaltracker/animals/images/sea_creatures/*.png
 *.pkl
