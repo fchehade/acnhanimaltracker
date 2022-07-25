@@ -63,10 +63,31 @@ if __name__ == "__main__":
     + `cd ~/your/project/path`
     + `git clone https://github.com/fchehade/acnhanimaltracker.git`
 
-2. Change director `cd` to the acnhanimaltracker root directory. 
-3. On your first run, `main.py`, make sure to uncomment lines 15 and 17. This will ensure to download the necessary files from the API endpoints and store them for future use.
-4. After that comment out lines 15 and 17 again and simply run `main.py` again.
-5. If you want to reset your progress for whatever reason just uncomment line 15 once again.
+2. Change directory `cd` to the acnhanimaltracker root directory.
+3. Create a virtual environment and install requirements.txt
+    + `python3 -m venv .env`
+    + `source .env/bin/activate`
+    + `pip install requirements.txt`
+4. Afterwards, just run `python3 main.py` <i>First run will take a while to complete due to downloading image data.</i>
+5. If you want to reset your progress just uncomment these lines in `main.py`:
+```python
+if __name__ == "__main__":
+    root_directory = os.path.dirname(__file__)
+    if not is_folder_structure_intact(root_directory):
+        animal_handler = AnimalHandler(root_directory)
+        animal_handler.reset_animals(True, True, True)
+        animal_list = animal_handler.load_animals()
+        animal_handler.download_images(animal_list)
+    else:
+        animal_handler = AnimalHandler(root_directory)
+        # animal_handler.reset_animals(True, True, True)   <--
+        animal_list = animal_handler.load_animals()
+        # animal_handler.download_images(animal_list)      <--
+    
+    app = Application(animal_list, root_directory)
+    app.mainloop()
+    animal_handler.save_animals(animal_list)
+```
 
 **How to Contribute**
 ---

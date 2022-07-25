@@ -1,7 +1,7 @@
 import os
 
 
-def check_folder_structure(root_directory: str):
+def is_folder_structure_intact(root_directory: str) -> bool:
     """Checks if the required folder structure is in tact. If not it's going
     to create the necessary folders.
 
@@ -30,3 +30,7 @@ def check_folder_structure(root_directory: str):
         if not os.path.exists(file_path):
             print(f"Found missing directory: {file_path}. Creating directory")
             os.makedirs(file_path)
+
+        if not os.listdir(file_path):
+            return False
+    return True
