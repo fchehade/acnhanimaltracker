@@ -40,20 +40,6 @@ Use the left mouse button to select or deselect caught animals.
 To go back to the main menu use the backspace button.
 ```
 
-```Python
-# in main.py
-
-if __name__ == "__main__":
-    root_directory = os.path.dirname(__file__)
-    animal_handler = AnimalHandler(root_directory)
-    # animal_handler.reset_animals(True, True, True) # <- uncomment this line only on your first run or if you want to reset your progress
-    animal_list = animal_handler.load_animals()
-    # animal_handler.download_images(animal_list) # <- uncomment this line only on your first run
-    app = Application(animal_list, root_directory)
-    app.mainloop()
-    animal_handler.save_animals(animal_list)
-```
-
 ![Run](img/example.png)
 
 **Installation Options**
