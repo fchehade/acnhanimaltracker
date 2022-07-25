@@ -2,6 +2,7 @@ import pickle
 import os
 import requests
 from .animal import Fish, Bug, SeaCreature
+from PIL import Image,ImageTk
 
 
 class AnimalHandler:
@@ -164,15 +165,40 @@ class AnimalHandler:
                         "wb",
                     ) as file_handler:
                         file_handler.write(response.content)
+                    image = Image.open(f"{self.root_directory}/acnhanimaltracker/animals/images/fish/{animal.save_name}.png")
+                    image = self.resize_image(image)
+                    image.save(f"{self.root_directory}/acnhanimaltracker/animals/images/fish/{animal.save_name}.png")
+                    
                 if isinstance(animal, Bug):
                     with open(
                         f"{self.root_directory}/acnhanimaltracker/animals/images/bugs/{animal.save_name}.png",
                         "wb",
                     ) as file_handler:
                         file_handler.write(response.content)
+                    image = Image.open(f"{self.root_directory}/acnhanimaltracker/animals/images/bugs/{animal.save_name}.png")
+                    image = self.resize_image(image)
+                    image.save(f"{self.root_directory}/acnhanimaltracker/animals/images/bugs/{animal.save_name}.png")
                 if isinstance(animal, SeaCreature):
                     with open(
                         f"{self.root_directory}/acnhanimaltracker/animals/images/sea_creatures/{animal.save_name}.png",
                         "wb",
                     ) as file_handler:
                         file_handler.write(response.content)
+                    image = Image.open(f"{self.root_directory}/acnhanimaltracker/animals/images/sea_creatures/{animal.save_name}.png")
+                    image = self.resize_image(image)
+                    image.save(f"{self.root_directory}/acnhanimaltracker/animals/images/sea_creatures/{animal.save_name}.png")
+
+    def resize_image(self, image: Image.Image):
+        """Resizes an image to a specified width respecting the aspect ratio.
+
+        Args:
+            image (Image.Image): Original sized image to be resized by basewidth.
+
+        Returns:
+            Image.Image: Return a resized version of an image given
+        """
+        basewidth = 275
+        wpercent = basewidth / float(image.size[0])
+        hsize = int((float(image.size[1] * float(wpercent))))
+        image = image.resize((basewidth, hsize), Image.ANTIALIAS)
+        return image

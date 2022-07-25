@@ -30,7 +30,6 @@ class SeaCreaturePage(ttk.Treeview):
 
         for index, i in enumerate(range(40), start=1):
             png = Image.open(f"{controller.animal_list[2][i].image_path}")
-            png = self.resize_image(png)
             png = ImageTk.PhotoImage(png)
             self.animals_dict[index] = [
                 controller.animal_list[2][i],
@@ -78,18 +77,3 @@ class SeaCreaturePage(ttk.Treeview):
         self.tag_configure("False", background="#8b0000")
         self.tag_configure("True", background="#006400")
         self.item(str(animal_id), tags=(f"{str(animal_list[animal_id - 1].caught)}"))
-
-    def resize_image(self, image: Image.Image):
-        """Resizes an image to a specified width respecting the aspect ratio.
-
-        Args:
-            image (Image.Image): Original sized image to be resized by basewidth.
-
-        Returns:
-            Image.Image: Return a resized version of an image given
-        """
-        basewidth = 250
-        wpercent = basewidth / float(image.size[0])
-        hsize = int((float(image.size[1] * float(wpercent))))
-        image = image.resize((basewidth, hsize), Image.ANTIALIAS)
-        return image

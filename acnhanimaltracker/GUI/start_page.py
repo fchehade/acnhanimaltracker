@@ -26,7 +26,6 @@ class StartPage(ttk.Frame):
         img1 = Image.open(
             f"{controller.root_directory}/acnhanimaltracker/animals/images/fish/arapaima44.png"
         )
-        img1 = self.resize_image(img1)
         img1 = ImageTk.PhotoImage(img1)
         image_label1 = ttk.Label(self, image=img1)
         image_label1.image = img1  # type: ignore
@@ -42,7 +41,6 @@ class StartPage(ttk.Frame):
         img2 = Image.open(
             f"{controller.root_directory}/acnhanimaltracker/animals/images/bugs/centipede77.png"
         )
-        img2 = self.resize_image(img2)
         img2 = ImageTk.PhotoImage(img2)
         image_label2 = ttk.Label(self, image=img2)
         image_label2.image = img2  # type: ignore
@@ -58,7 +56,6 @@ class StartPage(ttk.Frame):
         img3 = Image.open(
             f"{controller.root_directory}/acnhanimaltracker/animals/images/sea_creatures/vampire squid22.png"
         )
-        img3 = self.resize_image(img3)
         img3 = ImageTk.PhotoImage(img3)
         image_label3 = ttk.Label(self, image=img3)
         image_label3.image = img3  # type: ignore
@@ -70,18 +67,3 @@ class StartPage(ttk.Frame):
             command=lambda: controller.show_frame(controller.sea_creature_page),
         )
         button3.grid(column=2, row=2, pady=20, padx=20)
-
-    def resize_image(self, image: Image.Image) -> Image.Image:
-        """Resizes an image to a specified width respecting the aspect ratio.
-
-        Args:
-            image (Image.Image): Original sized image to be resized by basewidth.
-
-        Returns:
-            Image.Image: Return a resized version of an image given
-        """
-        basewidth = 300
-        wpercent = basewidth / float(image.size[0])
-        hsize = int((float(image.size[1] * float(wpercent))))
-        image = image.resize((basewidth, hsize), Image.ANTIALIAS)
-        return image
