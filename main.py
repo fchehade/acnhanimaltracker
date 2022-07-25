@@ -1,6 +1,7 @@
 import os
 from acnhanimaltracker.animals import AnimalHandler
 from acnhanimaltracker.GUI import Application
+from acnhanimaltracker.helper import check_folder_structure
 
 # On your first run make sure to also include line # and line # to download the data and images from the API-Endpoint and save it.
 # In the GUI you can go back to the Start Page when hitting the backspace key on your keyboard
@@ -9,6 +10,7 @@ from acnhanimaltracker.GUI import Application
 
 if __name__ == "__main__":
     root_directory = os.path.dirname(__file__)
+    check_folder_structure(root_directory)
     animal_handler = AnimalHandler(root_directory)
     # animal_handler.reset_animals(True, True, True)
     animal_list = animal_handler.load_animals()
