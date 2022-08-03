@@ -1,3 +1,6 @@
+import os
+
+
 class Animal:
     """Base class of every animal in Animal Crossing New Horizons. It tries to
     model relevant data based on the API https://acnhapi.com/v1/{endpoint}.
@@ -13,14 +16,14 @@ class Animal:
     def __init__(self, api_response: dict, root_directory: str) -> None:
         self.api_response = api_response
         self.root_directory = root_directory
-        self.name = self.__get_name()
-        self.id = self.__get_id()
+        self.name = self._get_name()
+        self.id = self._get_id()
         self.save_name = self.name + str(self.id)
-        self.time = self.__get_time()
-        self.months = self.__get_months()
-        self.price = self.__get_price()
+        self.time = self._get_time()
+        self.months = self._get_months()
+        self.price = self._get_price()
         self.caught = False
-        self.image_url = self.__get_image_url()
+        self.image_url = self._get_image_url()
 
     def __str__(self):
         return f"""
@@ -31,28 +34,42 @@ class Animal:
         Price: {self.price}
         Caught: {self.caught}"""
 
-    def __get_name(self):
+    def _get_name(self):
+        if "name-USen" not in self.api_response["name"]:
+            raise KeyError("Key 'name-USen' not found")
         return self.api_response["name"]["name-USen"]
 
-    def __get_id(self):
+    def _get_id(self):
+        if "id" not in self.api_response:
+            raise KeyError("Key 'id' not found")
         return self.api_response["id"]
 
-    def __get_time(self):
+    def _get_time(self):
+        if "time-array" not in self.api_response["availability"]:
+            raise KeyError("Key 'time-array' not found")
         return self.api_response["availability"]["time-array"]
 
-    def __get_months(self):
+    def _get_months(self):
+        if "month-array-northern" not in self.api_response["availability"]:
+            raise KeyError("Key 'month-array-northern' not found")
         return self.api_response["availability"]["month-array-northern"]
 
-    def __get_price(self):
+    def _get_price(self):
+        if "price" not in self.api_response:
+            raise KeyError("Key 'price' not found")
         return self.api_response["price"]
 
-    def __get_image_url(self):
+    def _get_image_url(self):
+        if "image_uri" not in self.api_response:
+            raise KeyError("Key 'image_uri' not found")
         return self.api_response["image_uri"]
 
     def switch_caught_status(self):
         self.caught = not self.caught
 
     def set_caught_status(self, boolean: bool):
+        if not isinstance(boolean, bool):
+            raise ValueError(f"{boolean} is not of type bool - type of {type(boolean)}")
         self.caught = boolean
 
 
@@ -66,11 +83,11 @@ class Fish(Animal):
 
     def __init__(self, api_response: dict, root_directory: str) -> None:
         super().__init__(api_response, root_directory)
-        self.rarity = self.__get_rarity()
-        self.shadow = self.__get_shadow()
-        self.surcharge = self.__get_surcharge()
-        self.location = self.__get_location()
-        self.image_path = self.__get_image_path()
+        self.rarity = self._get_rarity()
+        self.shadow = self._get_shadow()
+        self.surcharge = self._get_surcharge()
+        self.location = self._get_location()
+        self.image_path = self._get_image_path()
 
     def __str__(self):
         return f"""
@@ -83,20 +100,31 @@ class Fish(Animal):
         Price: {self.price}
         Surcharge: {self.surcharge}"""
 
-    def __get_shadow(self):
+    def _get_shadow(self):
+        if "shadow" not in self.api_response:
+            raise KeyError("Key 'shadow' not found")
         return self.api_response["shadow"]
 
-    def __get_surcharge(self):
+    def _get_surcharge(self):
+        if "price-cj" not in self.api_response:
+            raise KeyError("Key 'price-cj' not found")
         return self.api_response["price-cj"]
 
-    def __get_rarity(self):
+    def _get_rarity(self):
+        if "rarity" not in self.api_response["availability"]:
+            raise KeyError("Key 'rarity' not found")
         return self.api_response["availability"]["rarity"]
 
-    def __get_location(self):
+    def _get_location(self):
+        if "location" not in self.api_response["availability"]:
+            raise KeyError("Key 'location' not found")
         return self.api_response["availability"]["location"]
 
-    def __get_image_path(self):
-        return f"{self.root_directory}/acnhanimaltracker/animals/images/fish/{self.save_name}.png"
+    def _get_image_path(self):
+        file = f"{self.root_directory}/acnhanimaltracker/animals/images/fish/{self.save_name}.png"
+        if not os.path.exists(file):
+            raise FileNotFoundError(f"{file} wasn't found at specified path.")
+        return file
 
 
 class Bug(Animal):
@@ -109,10 +137,10 @@ class Bug(Animal):
 
     def __init__(self, api_response: dict, root_directory: str) -> None:
         super().__init__(api_response, root_directory)
-        self.surcharge = self.__get_surcharge()
-        self.rarity = self.__get_rarity()
-        self.location = self.__get_location()
-        self.image_path = self.__get_image_path()
+        self.surcharge = self._get_surcharge()
+        self.rarity = self._get_rarity()
+        self.location = self._get_location()
+        self.image_path = self._get_image_path()
 
     def __str__(self):
         return f"""
@@ -124,17 +152,26 @@ class Bug(Animal):
         Price: {self.price}
         Surcharge: {self.surcharge}"""
 
-    def __get_surcharge(self):
+    def _get_surcharge(self):
+        if "price-flick" not in self.api_response["price-flick"]:
+            raise KeyError("Key 'price-flick' not found")
         return self.api_response["price-flick"]
 
-    def __get_rarity(self):
+    def _get_rarity(self):
+        if "rarity" not in self.api_response["availability"]:
+            raise KeyError("Key 'rarity' not found")
         return self.api_response["availability"]["rarity"]
 
-    def __get_location(self):
+    def _get_location(self):
+        if "location" not in self.api_response["availability"]:
+            raise KeyError("Key 'location' not found")
         return self.api_response["availability"]["location"]
 
-    def __get_image_path(self):
-        return f"{self.root_directory}/acnhanimaltracker/animals/images/bugs/{self.save_name}.png"
+    def _get_image_path(self):
+        file = f"{self.root_directory}/acnhanimaltracker/animals/images/bugs/{self.save_name}.png"
+        if not os.path.exists(file):
+            raise FileNotFoundError(f"{file} wasn't found at specified path.")
+        return file
 
 
 class SeaCreature(Animal):
@@ -147,9 +184,9 @@ class SeaCreature(Animal):
 
     def __init__(self, api_response: dict, root_directory: str) -> None:
         super().__init__(api_response, root_directory)
-        self.speed = self.__get_speed()
-        self.shadow = self.__get_shadow()
-        self.image_path = self.__get_image_path()
+        self.speed = self._get_speed()
+        self.shadow = self._get_shadow()
+        self.image_path = self._get_image_path()
 
     def __str__(self):
         return f"""
@@ -160,11 +197,18 @@ class SeaCreature(Animal):
         Months: {self.months}
         Price: {self.price}"""
 
-    def __get_shadow(self):
+    def _get_shadow(self):
+        if "shadow" not in self.api_response:
+            raise KeyError("Key 'shadow' not found")
         return self.api_response["shadow"]
 
-    def __get_speed(self):
+    def _get_speed(self):
+        if "speed" not in self.api_response:
+            raise KeyError("Key 'speed' not found")
         return self.api_response["speed"]
 
-    def __get_image_path(self):
-        return f"{self.root_directory}/acnhanimaltracker/animals/images/sea_creatures/{self.save_name}.png"
+    def _get_image_path(self):
+        file = f"{self.root_directory}/acnhanimaltracker/animals/images/sea_creatures/{self.save_name}.png"
+        if not os.path.exists(file):
+            raise FileNotFoundError(f"{file} wasn't found at specified path.")
+        return file
