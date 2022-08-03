@@ -1,6 +1,3 @@
-import os
-
-
 class Animal:
     """Base class of every animal in Animal Crossing New Horizons. It tries to
     model relevant data based on the API https://acnhapi.com/v1/{endpoint}.
@@ -121,10 +118,7 @@ class Fish(Animal):
         return self.api_response["availability"]["location"]
 
     def _get_image_path(self):
-        file = f"{self.root_directory}/acnhanimaltracker/animals/images/fish/{self.save_name}.png"
-        if not os.path.exists(file):
-            raise FileNotFoundError(f"{file} wasn't found at specified path.")
-        return file
+        return f"{self.root_directory}/acnhanimaltracker/animals/images/fish/{self.save_name}.png"
 
 
 class Bug(Animal):
@@ -168,10 +162,7 @@ class Bug(Animal):
         return self.api_response["availability"]["location"]
 
     def _get_image_path(self):
-        file = f"{self.root_directory}/acnhanimaltracker/animals/images/bugs/{self.save_name}.png"
-        if not os.path.exists(file):
-            raise FileNotFoundError(f"{file} wasn't found at specified path.")
-        return file
+        return f"{self.root_directory}/acnhanimaltracker/animals/images/bugs/{self.save_name}.png"
 
 
 class SeaCreature(Animal):
@@ -208,7 +199,4 @@ class SeaCreature(Animal):
         return self.api_response["speed"]
 
     def _get_image_path(self):
-        file = f"{self.root_directory}/acnhanimaltracker/animals/images/sea_creatures/{self.save_name}.png"
-        if not os.path.exists(file):
-            raise FileNotFoundError(f"{file} wasn't found at specified path.")
-        return file
+        return f"{self.root_directory}/acnhanimaltracker/animals/images/sea_creatures/{self.save_name}.png"
