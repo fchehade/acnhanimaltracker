@@ -147,7 +147,7 @@ class Bug(Animal):
         Surcharge: {self.surcharge}"""
 
     def _get_surcharge(self):
-        if "price-flick" not in self.api_response["price-flick"]:
+        if "price-flick" not in self.api_response:
             raise KeyError("Key 'price-flick' not found")
         return self.api_response["price-flick"]
 
