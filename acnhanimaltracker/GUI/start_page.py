@@ -1,8 +1,9 @@
 import os
 import tkinter
+from .fish import FishPage
+from .bugs import BugPage
+from .sea_creatures import SeaCreaturePage
 from tkinter import ttk
-
-LARGE_FONT = ("Verdana", 14)
 
 
 class StartPage(tkinter.Canvas):
@@ -18,6 +19,7 @@ class StartPage(tkinter.Canvas):
     def __init__(self, parent: ttk.Frame, controller):
         super().__init__(parent)
         self.controller = controller
+        self.parent = parent
         img = tkinter.PhotoImage(file=os.path.join(os.path.dirname(__file__), "art/bg.png"))
         self.image = img
         self.create_image(0, 0, image=self.image, anchor="nw")
@@ -30,10 +32,21 @@ class StartPage(tkinter.Canvas):
 
         button_style = ttk.Style()
         button_style.configure("StartPage.TButton", font="Calibri 20")
-        self.fish_button = ttk.Button(self, text="Fish", style="StartPage.TButton")
-        self.bug_button = ttk.Button(self, text="Bugs", style="StartPage.TButton")
-        self.sea_button = ttk.Button(self, text="Sea Creatures", style="StartPage.TButton")
+        self.fish_button = ttk.Button(self, text="Fish", style="StartPage.TButton", command=self.open_fish_page)
+        self.bug_button = ttk.Button(self, text="Bugs", style="StartPage.TButton", command=self.open_bug_page)
+        self.sea_button = ttk.Button(self, text="Sea Creatures", style="StartPage.TButton", command=self.open_sea_page)
 
         self.create_window(1200, 180, window=self.fish_button, anchor="ne")
         self.create_window(1200, 360, window=self.bug_button, anchor="ne")
         self.create_window(1200, 540, window=self.sea_button, anchor="ne")
+
+    def open_fish_page(self):
+        page = FishPage(self.parent, self.controller)
+        page.pack(expand=True, fill="both")
+        self.destroy()
+
+    def open_bug_page(self):
+        self.destroy()
+
+    def open_sea_page(self):
+        self.destroy()
