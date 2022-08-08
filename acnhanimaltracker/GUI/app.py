@@ -20,7 +20,8 @@ class Application(tkinter.Tk):
         super().__init__()
         # Initialize Base Configuration
         self.title("Animal Crossing New Horizons - Animal Tracker")
-        self.geometry("1050x800+500+100")
+        self.geometry("1280x720")
+        self.resizable(False, False)
 
         # Load in animals
         self.animal_list = animal_list
@@ -28,26 +29,26 @@ class Application(tkinter.Tk):
         self.root_directory = root_directory
         # Initialize Base Container
         container = ttk.Frame(self)
-        container.pack(side="top", fill="both", expand=True)
+        container.pack(fill="both", expand=True)
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
         self.start_page = StartPage(container, self)
-        self.start_page.grid(row=0, column=0, sticky="nsew")
-        self.fish_page = FishPage(container, self)
-        self.fish_page.grid(row=0, column=0, sticky="nsew")
-        self.bug_page = BugPage(container, self)
-        self.bug_page.grid(row=0, column=0, sticky="nsew")
-        self.sea_creature_page = SeaCreaturePage(container, self)
-        self.sea_creature_page.grid(row=0, column=0, sticky="nsew")
+        self.start_page.pack(expand=True, fill="both")
+        #self.fish_page = FishPage(container, self)
+        #self.fish_page.grid(row=0, column=0, sticky="nsew")
+        #self.bug_page = BugPage(container, self)
+        #self.bug_page.grid(row=0, column=0, sticky="nsew")
+        #self.sea_creature_page = SeaCreaturePage(container, self)
+        #self.sea_creature_page.grid(row=0, column=0, sticky="nsew")
 
         # Load up StartPage
-        self.show_frame(self.start_page)
+        #self.show_frame(self.start_page)
 
-        self.bind(
-            "<BackSpace->",
-            lambda event: self.show_frame(self.start_page, _=event),
-        )
+        #self.bind(
+        #    "<BackSpace->",
+       #     lambda event: self.show_frame(self.start_page, _=event),
+        #)
 
-    def show_frame(self, frame, _=None):
-        frame.tkraise()
+    #def show_frame(self, frame, _=None):
+    #    frame.tkraise()
